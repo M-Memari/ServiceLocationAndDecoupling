@@ -19,10 +19,9 @@ namespace ServiceLocationAndDecoupling
 
         public async Task Invoke(HttpContext context)
         {
-            IResponseFormatter formatter = new TextFormatter();
             if (context.Request.Path =="/middleware/class")
             {
-                await formatter.Format(context, "It is sunny in LA");
+                await TextFormatter.Singleton.Format(context, "It is sunny in LA");
             }
             else
             {

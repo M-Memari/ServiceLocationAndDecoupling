@@ -19,7 +19,6 @@ namespace ServiceLocationAndDecoupling
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            IResponseFormatter formatter = new TextFormatter();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -30,7 +29,7 @@ namespace ServiceLocationAndDecoupling
             {
                 if (context.Request.Path == "/middleware/function")
                 {
-                    await formatter.Format(context, "It is snowing in Toronto");
+                    await TextFormatter.Singleton.Format(context, "It is snowing in Toronto");
                 }
                 else
                 {
@@ -46,7 +45,7 @@ namespace ServiceLocationAndDecoupling
             });
             app.Run(async (context) =>
             {
-                await formatter.Format(context, "Terminal middleware reached");
+                await context.Response.WriteAsync("Response From Terminal Middlware");
             });
         }
     }

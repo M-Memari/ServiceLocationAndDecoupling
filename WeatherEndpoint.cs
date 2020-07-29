@@ -12,8 +12,8 @@ namespace ServiceLocationAndDecoupling
     {
         public static async Task Endpoint(HttpContext context)
         {
-            IResponseFormatter formatter = new TextFormatter();
-            await formatter.Format(context, "It is raining in Vancouver");
+            
+            await TextFormatter.Singleton.Format(context, "It is raining in Vancouver");
         }
     }
 }
