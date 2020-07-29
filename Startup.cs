@@ -7,33 +7,46 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ServiceLocationAndDecoupling.Services;
 
 namespace ServiceLocationAndDecoupling
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            IResponseFormatter formatter = new TextFormatter();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<WeatherMiddleware>();
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path == "/middleware/function")
+                {
+                    await formatter.Format(context, "It is snowing in Toronto");
+                }
+                else
+                {
+                    await next();
+                }
+            });
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapGet("/endpoint/class", WeatherEndpoint.Endpoint);
+            });
+            app.Run(async (context) =>
+            {
+                await formatter.Format(context, "Terminal middleware reached");
             });
         }
     }
