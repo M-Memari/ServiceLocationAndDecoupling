@@ -4,16 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using ServiceLocationAndDecoupling.Services;
 
 namespace ServiceLocationAndDecoupling
 {
-    public static class WeatherEndpoint
+    public  class WeatherEndpoint
     {
+
         public static async Task Endpoint(HttpContext context)
         {
-            
-            await TypeBroker.Formatter.Format(context, "It is raining in Vancouver");
+            var formatter = context.RequestServices.GetRequiredService<IResponseFormatter>();
+            await formatter.Format(context, "It is raining in Vancouver");
         }
     }
 }

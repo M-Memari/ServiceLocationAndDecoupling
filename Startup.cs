@@ -11,9 +11,11 @@ namespace ServiceLocationAndDecoupling
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IResponseFormatter, TextFormatter>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env
+        ,IResponseFormatter formatter)
         {
             if (env.IsDevelopment())
             {
@@ -25,7 +27,7 @@ namespace ServiceLocationAndDecoupling
             {
                 if (context.Request.Path == "/middleware/function")
                 {
-                    await TypeBroker.Formatter.Format(context, "It is snowing in Toronto");
+                    await formatter.Format(context, "It is snowing in Toronto");
                 }
                 else
                 {
