@@ -39,7 +39,8 @@ namespace ServiceLocationAndDecoupling
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/endpoint/class", WeatherEndpoint.Endpoint);
+                //endpoints.MapGet("/endpoint/class", WeatherEndpoint.Endpoint);
+                endpoints.MapWeather("/endpoint/class");
             });
             app.Run(async (context) =>
             {
