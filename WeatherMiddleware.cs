@@ -21,7 +21,7 @@ namespace ServiceLocationAndDecoupling
         {
             if (context.Request.Path =="/middleware/class")
             {
-                await TextFormatter.Singleton.Format(context, "It is sunny in LA");
+                await TypeBroker.Formatter.Format(context, "It is sunny in LA");
             }
             else
             {

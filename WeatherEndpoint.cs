@@ -13,7 +13,7 @@ namespace ServiceLocationAndDecoupling
         public static async Task Endpoint(HttpContext context)
         {
             
-            await TextFormatter.Singleton.Format(context, "It is raining in Vancouver");
+            await TypeBroker.Formatter.Format(context, "It is raining in Vancouver");
         }
     }
 }

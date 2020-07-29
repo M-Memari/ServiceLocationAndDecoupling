@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +25,7 @@ namespace ServiceLocationAndDecoupling
             {
                 if (context.Request.Path == "/middleware/function")
                 {
-                    await TextFormatter.Singleton.Format(context, "It is snowing in Toronto");
+                    await TypeBroker.Formatter.Format(context, "It is snowing in Toronto");
                 }
                 else
                 {
